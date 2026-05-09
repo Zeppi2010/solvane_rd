@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Projects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/facilities">Facilities</a>
+        <a href="/scientists">Scientists</a>
+        <a href="/testers">Testers</a>
+        <a href="/projects">Projects</a>
+    </div>
+    <img src="{{ url_for('static', filename='flag.png') }}" class="nav-flag" alt="Solvane flag">
+    </nav>
+
+    <h1>Projects</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Facility</th>
+            <th>Version</th>
+            <th>Type</th>
+            <th>Details</th>
+        </tr>
+        {% for p in projects %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+            <td>{{ p[3] }}</td>
+            <td>{{ p[4] }}</td>
+            <td><a href="/projects/{{ p[0] }}">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Add Project</h2>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <select name="facility_id" required>
+            <option value="">Select Facility</option>
+            {% for f in facilities %}
+            <option value="{{ f[0] }}">{{ f[1] }}</option>
+            {% endfor %}
+        </select>
+        <input type="text" name="changes" placeholder="Initial description">
+        <input type="text" name="type" placeholder="Type" required>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

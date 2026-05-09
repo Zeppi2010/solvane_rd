@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Solvane R&D</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/facilities">Facilities</a>
+        <a href="/scientists">Scientists</a>
+        <a href="/testers">Testers</a>
+        <a href="/projects">Projects</a>
+    </div>
+    <img src="{{ url_for('static', filename='flag.png') }}" class="nav-flag" alt="Solvane flag">
+    </nav>
+
+    <h1>Glory to the People's Union of Solvane!</h1>
+
+<p class="welcome">
+    Welcome to the Solvane Research & Development management system. 
+    Use the navigation above to manage facilities, scientists, testers, 
+    and projects. Assign personnel to active projects and track version 
+    changes as research progresses.
+</p>
+
+<div class="stats">
+    <div class="card">
+        <h2>{{ facilities }}</h2>
+        <p>Facilities</p>
+    </div>
+    <div class="card">
+        <h2>{{ scientists }}</h2>
+        <p>Scientists</p>
+    </div>
+    <div class="card">
+        <h2>{{ testers }}</h2>
+        <p>Testers</p>
+    </div>
+    <div class="card">
+        <h2>{{ projects }}</h2>
+        <p>Projects</p>
+    </div>
+</div>
+
+<h2>Projects per Facility</h2>
+<table>
+    <tr>
+        <th>Facility</th>
+        <th>Region</th>
+        <th>Projects</th>
+    </tr>
+    {% for row in facility_stats %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="3">No facilities yet</td></tr>
+    {% endfor %}
+</table>
+</body>
+</html>

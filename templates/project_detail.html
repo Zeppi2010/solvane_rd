@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ project[1] }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/facilities">Facilities</a>
+        <a href="/scientists">Scientists</a>
+        <a href="/testers">Testers</a>
+        <a href="/projects">Projects</a>
+    </div>
+    <img src="{{ url_for('static', filename='flag.png') }}" class="nav-flag" alt="Solvane flag">
+    </nav>
+
+    <h1>{{ project[1] }}</h1>
+    <p><strong>Facility:</strong> {{ project[2] }}</p>
+    <p><strong>Version:</strong> {{ project[3] }}</p>
+    <p><strong>Latest Changes:</strong> {{ project[4] }}</p>
+    <p><strong>Type:</strong> {{ project[5] }}</p>
+
+    <div class="two-col">
+        <div>
+            <h2>Assigned Scientists</h2>
+            <table>
+                <tr><th>Name</th><th>Type</th></tr>
+                {% for s in assigned_scientists %}
+                <tr><td>{{ s[1] }}</td><td>{{ s[2] }}</td></tr>
+                {% else %}
+                <tr><td colspan="2">None assigned</td></tr>
+                {% endfor %}
+            </table>
+
+            {% if available_scientists %}
+            <h3>Assign Scientist</h3>
+            <form method="POST">
+                <input type="hidden" name="action" value="assign_scientist">
+                <select name="scientist_id" required>
+                    <option value="">Select Scientist</option>
+                    {% for s in available_scientists %}
+                    <option value="{{ s[0] }}">{{ s[1] }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Assign</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <div>
+            <h2>Assigned Testers</h2>
+            <table>
+                <tr><th>Name</th><th>Type</th></tr>
+                {% for t in assigned_testers %}
+                <tr><td>{{ t[1] }}</td><td>{{ t[2] }}</td></tr>
+                {% else %}
+                <tr><td colspan="2">None assigned</td></tr>
+                {% endfor %}
+            </table>
+
+            {% if available_testers %}
+            <h3>Assign Tester</h3>
+            <form method="POST">
+                <input type="hidden" name="action" value="assign_tester">
+                <select name="tester_id" required>
+                    <option value="">Select Tester</option>
+                    {% for t in available_testers %}
+                    <option value="{{ t[0] }}">{{ t[1] }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Assign</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2>Update Project</h2>
+    <form method="POST">
+        <input type="hidden" name="action" value="update">
+        <input type="text" name="changes" placeholder="Describe what changed" required>
+        <button type="submit">Update Version</button>
+    </form>
+
+    <h2>Version Changelog</h2>
+    <table>
+        <tr>
+            <th>Old Version</th>
+            <th>New Version</th>
+            <th>Changes</th>
+            <th>Changed At</th>
+        </tr>
+        {% for log in changelog %}
+        <tr>
+            <td>{{ log[0] }}</td>
+            <td>{{ log[1] }}</td>
+            <td>{{ log[2] }}</td>
+            <td>{{ log[3] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">No changes yet</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
